@@ -1,0 +1,12 @@
+BubbleBackpack KEYWORD1
+
+setupDisplay KEYWORD2
+clearDisplay KEYWORD2
+setDisplayIntensity KEYWORD2
+writeDigit KEYWORD2
+writeSegment KEYWORD2
+quickTest KEYWORD2
+readFromSerial KEYWORD2
+numofDisplays KEYWORD2
+numOfDigits KEYWORD2
+spiTransfer KEYWORD2
