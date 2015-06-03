@@ -30,7 +30,7 @@ class BubbleBackpack {
     BubbleBackpack(int clkPin, int csPin, int dinPin);
 
     // Initates The Bubble Backpack in form: (Number of digits on the backpack (4 or 8), Number of backpacks cascaded together)
-    void setupDisplay(int numberOfDigits, int numberOfDisplays);
+    void setUpDisplay(int numberOfDigits, int numberOfDisplays);
 
     // Clears the display
     void clearDisplay(void);
