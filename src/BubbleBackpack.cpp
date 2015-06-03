@@ -149,7 +149,7 @@ BubbleBackpack::BubbleBackpack(int clkPin, int csPin, int dinPin) {
 }
 
 //Initates The Bubble Backpack in form: (Number of digits on the backpack (4 or 8), Number of backpacks cascaded together)
-void BubbleBackpack::setupDisplay(int numberOfDigits, int numberOfDisplays){ 
+void BubbleBackpack::setUpDisplay(int numberOfDigits, int numberOfDisplays){ 
     // initate the SPI pins
   pinMode(_csPin, OUTPUT);
   pinMode(_clkPin, OUTPUT);
