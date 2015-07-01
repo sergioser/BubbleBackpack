@@ -2,10 +2,10 @@
   BubbleBackpack.cpp - A library for The Bubble Backpacks
   By TinkerTroniks.com
   Created by Serg, May 27, 2015.
-  Updated June 6, 2015
+  Updated June 30, 2015
   Released into the public domain.
 */
-#include "BubbleBackpack.h" 
+#include "bubblebackpackh.h"
 
 const static byte  digitReg[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 const static byte  fontArray[] = {
@@ -149,12 +149,12 @@ BubbleBackpack::BubbleBackpack(int clkPin, int csPin, int dinPin) {
 }
 
 //Initates The Bubble Backpack in form: (Number of digits on the backpack (4 or 8), Number of backpacks cascaded together)
-void BubbleBackpack::setUpDisplay(int numberOfDigits, int numberOfDisplays){ 
-    // initate the SPI pins
+void BubbleBackpack::setUpDisplay(int numberOfDigits, int numberOfDisplays) {
+  // initate the SPI pins
   pinMode(_csPin, OUTPUT);
   pinMode(_clkPin, OUTPUT);
   pinMode(_dinPin, OUTPUT);
-  
+
   byte intensityReg = 0x0a; // 0 - 15
   byte modeReg = 0x0f;
   byte decodeReg = 0x09;
@@ -164,7 +164,7 @@ void BubbleBackpack::setUpDisplay(int numberOfDigits, int numberOfDisplays){
   //Let the rest of the program know how many displays and digits we have
   _cascadedDevices = numberOfDisplays;
   _numberOfDigits = numberOfDigits;
-  
+
   //Set up every display
   for (int i = 1; i <= _cascadedDevices; i++) {
     // Turn off Test Mode
@@ -182,7 +182,7 @@ void BubbleBackpack::setUpDisplay(int numberOfDigits, int numberOfDisplays){
     //Set Scan Rate (Depends on the number of digits on the display)
     spiTransfer(scanReg, (_numberOfDigits - 1), i);
   }
-   clearDisplay();
+  clearDisplay();
 }
 
 // Clears the display
@@ -190,6 +190,27 @@ void BubbleBackpack::clearDisplay(void) {
   for (int c = 1; c <= _cascadedDevices; c++) {
     for (int i = 1; i < (_numberOfDigits + 1); i++) {
       spiTransfer(i, 0, c);
+    }
+  }
+}
+
+// Puts device in Shutdown Mode when a true value is passed down
+// Takes device off shutdown mode when a false value is passed down
+// Device still retains data and consumes about 150uA
+void BubbleBackpack::shutDown(boolean shutItDown) {
+  byte shutdownReg = 0x0c;
+  if (shutItDown == true) {
+    //For every display
+    for (int i = 1; i <= _cascadedDevices; i++) {
+      //Turn on Shutdown Mode
+      spiTransfer(shutdownReg, 0, i);
+    }
+  }
+  if (shutItDown == false) {
+    //For every display
+    for (int i = 1; i <= _cascadedDevices; i++) {
+      //Turn off Shutdown Mode
+      spiTransfer(shutdownReg, 1, i);
     }
   }
 }
@@ -221,7 +242,7 @@ void BubbleBackpack::writeSegment(int digit, int segment, int numDisplays) {
 }
 
 // Runs through 0 - 9 on every digit, on every display
-void BubbleBackpack::quickTest(void){
+void BubbleBackpack::quickTest(void) {
   for (int i = 1; i <= _cascadedDevices; i++) {
     for (int c = 0; c < 10; c++) {
       writeDigit(0, c, i);
@@ -241,9 +262,9 @@ void BubbleBackpack::quickTest(void){
 void BubbleBackpack::readFromSerial(void) {
   int input;
   int digitPosition = 0;
-  
+
   Serial.begin(9600);
-  
+
   Serial.println("Type a number or digit to display and press 'enter'");
   //stay in this loop so that the text does not get repeted or the variables reinitiated
   while (true) {
@@ -277,7 +298,7 @@ void BubbleBackpack::spiTransfer(byte reg, byte data, int adress) {
   shiftOut(_dinPin, _clkPin, MSBFIRST, reg);
   shiftOut(_dinPin, _clkPin, MSBFIRST, data);
   // Go down the cascade to the previous chip if needed
- for (int i = 1; i < (_cascadedDevices - (_cascadedDevices - adress)) ; i++) {
+  for (int i = 1; i < (_cascadedDevices - (_cascadedDevices - adress)) ; i++) {
     // Send two bytes of 0s to push data to  the appropriate chip
     shiftOut(_dinPin, _clkPin, MSBFIRST, 0);
     shiftOut(_dinPin, _clkPin, MSBFIRST, 0);
