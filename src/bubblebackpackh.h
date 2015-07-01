@@ -1,14 +1,14 @@
 /*
-  BubbleBackpack.h - A library for The Bubble Backpacks
+  bubblebackpackh.h - A library for The Bubble Backpacks
   By TinkerTroniks.com
   Created by Serg, May 27, 2015.
-  Updated June 6, 2015
+  Updated June 30, 2015
   Released into the public domain.
 */
 
 
-#ifndef BubbleBackpack_H
-#define BubbleBackpack_H
+#ifndef bubblebackpack_H
+#define bubblebackpack_H
 
 #include <avr/pgmspace.h>
 
@@ -34,6 +34,10 @@ class BubbleBackpack {
 
     // Clears the display
     void clearDisplay(void);
+    
+    // Puts device in Shutdown Mode
+    // Device still retains data and consumes about 150uA
+    void shutDown(boolean shutItDown);
 
     // Set the display intensity from 0 to 15
     void setDisplayIntensity(int intensity);
