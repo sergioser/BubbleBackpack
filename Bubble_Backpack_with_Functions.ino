@@ -184,7 +184,7 @@ void loop() {
   int counter = 0;
   int i = 0;
 
-  // Go through all 13 charachters of the text
+  // Go through all 13 characters of the text
   while(i < 13 ){
     // numOfDigits returns the number of digits per display
     if (counter < _numberOfDigits) {
