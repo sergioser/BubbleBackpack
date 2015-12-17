@@ -2,7 +2,7 @@
   Hello_Arduino.ino
   Scrolls "Hello Arduino" on Display
   By TinkerTroniks.com
-  Created by Serg, June 2, 2015.
+  Created by Serg, December 16, 2015.
   Released into the public domain.
 */
 /*
@@ -31,6 +31,7 @@ Head on down and we can begin with the code
 // Make sure to tell the compiler to include the library
 // To download and install library visit https://github.com/sergioser/BubbleBackpack
 #include "BubbleBackpack.h"
+#include <bubblebackpack.h>
 
 
 void setup() {
